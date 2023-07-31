@@ -8,7 +8,7 @@ export const ContactsList = ({ contacts = [], filter, removeContact }) => {
 
     return <List>
         {contacts.length === 0 
-            ? <li>Sorry, but the list is empty!</li>
+            ? <li><h3>Sorry, but the list is empty!</h3></li>
             :filter
                     ? filteredCotacts.map(contact => <Contact contact={contact} removeContact={removeContact} key={contact.id}/>)
                     :contacts.map(contact => <Contact contact={contact} removeContact={removeContact} key={contact.id}/>)} 
