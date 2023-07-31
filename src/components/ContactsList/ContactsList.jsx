@@ -7,9 +7,11 @@ export const ContactsList = ({ contacts = [], filter, removeContact }) => {
     const filteredCotacts = contacts.filter(el => el.name.toLowerCase().includes(filter.toLowerCase()))
 
     return <List>
-        {filter
-            ? filteredCotacts.map(contact => <Contact contact={contact} removeContact={removeContact} key={contact.id}/>)
-            :contacts.map(contact => <Contact contact={contact} removeContact={removeContact} key={contact.id}/>)} 
+        {contacts.length === 0 
+            ? <li>Sorry, but the list is empty!</li>
+            :filter
+                    ? filteredCotacts.map(contact => <Contact contact={contact} removeContact={removeContact} key={contact.id}/>)
+                    :contacts.map(contact => <Contact contact={contact} removeContact={removeContact} key={contact.id}/>)} 
     </List>
 }
 
