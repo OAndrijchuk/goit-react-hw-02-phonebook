@@ -1,13 +1,27 @@
 import { Contact } from "./Contact/Contact"
+import PropTypes from 'prop-types';
+import { List } from "./ContactList.styled";
 
-export const ContactsList = ({ contacts, filter, removeContact }) => {
+export const ContactsList = ({ contacts = [], filter, removeContact }) => {
 
     const filteredCotacts = contacts.filter(el => el.name.toLowerCase().includes(filter.toLowerCase()))
 
-    return <ul>
+    return <List>
         {filter
             ? filteredCotacts.map(contact => <Contact contact={contact} removeContact={removeContact} key={contact.id}/>)
             :contacts.map(contact => <Contact contact={contact} removeContact={removeContact} key={contact.id}/>)} 
-            {/* :contacts.map(contact => <li key={contact.id}>{contact.name} {contact.number}</li>)}  */}
-    </ul>
+    </List>
 }
+
+
+ContactsList.propTypes = {
+    filter: PropTypes.string,
+    contacts: PropTypes.arrayOf(
+        PropTypes.shape({
+            number: PropTypes.string,
+            name: PropTypes.string,
+            id: PropTypes.string,
+        }),
+    ),
+    removeContact:PropTypes.func.isRequired,
+};

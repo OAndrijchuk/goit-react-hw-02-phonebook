@@ -4,6 +4,7 @@ import { SimpleForm } from "./Form/SimpleForm";
 import { nanoid } from 'nanoid'
 import { ContactsList } from "./ContactsList/ContactsList";
 import { Filter } from "./Filter/Filter";
+import { Container, GeneralTitle } from "./App.styled";
 
 export class App extends Component{
   state = {
@@ -20,7 +21,8 @@ export class App extends Component{
     const contact = {
       id: nanoid(),
      ...user
-    }
+    } 
+    console.log(contact)
     const newContacts = this.state.contacts.slice(0);
     const contactsIsInclud = newContacts.find(el => el.name === contact.name)
 
@@ -28,48 +30,41 @@ export class App extends Component{
       alert(`${contact.name} is already in contacts`);
       return;
     }
+
     newContacts.push(contact)
-    this.setState((prevState)=>({
-      ...prevState,
+    this.setState({
       contacts: newContacts,
-    })) 
+    }) 
   }
+
   onCheangedFilter = (event) => {
-    this.setState((preState) => {
-      const newState = {
-        ...preState,
-        [event.target.name]: event.target.value,
-      }
-      return newState;
-    })
+    this.setState((preState) => ({ ...preState, [event.target.name]: event.target.value, }))
   }
+  
   removeContact = (id) => {
-    console.log(id)
-    this.setState((preState) => {
-      return {
-        ...preState,
-        contacts: preState.contacts.filter(contact => contact.id !== id)
-      }
-    })
-}
+    this.setState((preState) => ({ contacts: preState.contacts.filter(contact => contact.id !== id) }))
+  }
 
   render() {
+    const{filter, contacts}=this.state
     return (
-        <>
-        <Section title="Phonebook">
-          <SimpleForm
-            onAddContact={this.onAddContact}
-          />
+      <Container>
+        <GeneralTitle>Phonebook</GeneralTitle>
+        <Section >
+          <SimpleForm onAddContact={this.onAddContact}/>
         </Section>
-        <Filter onCheangedFilter={this.onCheangedFilter} filterValue={this.state.filter} />
+
+        <Section title="Find contacts by name">
+          <Filter onCheangedFilter={this.onCheangedFilter} filterValue={filter} />
+        </Section>
+
         <Section title="Contacts">
           <ContactsList
-            contacts={this.state.contacts}
-            filter={this.state.filter}
+            contacts={contacts}
+            filter={filter}
             removeContact={this.removeContact} />
         </Section>
-        
-        </>
+        </Container>
     );}
   
 };

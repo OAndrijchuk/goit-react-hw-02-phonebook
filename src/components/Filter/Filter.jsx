@@ -1,8 +1,10 @@
-export const Filter = ({onCheangedFilter,filterValue}) => {
+import PropTypes from 'prop-types';
+import { Input } from './Filter.styled';
+
+export const Filter = ({ onCheangedFilter, filterValue }) => {
     return (
         <>
-            <h2>Find contacts by name</h2>
-            <input
+            <Input
                 type="text"
                 name="filter"
                 onChange={onCheangedFilter}
@@ -11,3 +13,8 @@ export const Filter = ({onCheangedFilter,filterValue}) => {
         </>
     )
 }
+
+Filter.propTypes = {
+    filterValue: PropTypes.string.isRequired,
+    onCheangedFilter:PropTypes.func.isRequired,
+};
