@@ -18,27 +18,24 @@ export class App extends Component{
   }
   
   onAddContact = (user) => {
-    const contact = {
-      id: nanoid(),
-     ...user
-    } 
-    console.log(contact)
-    const newContacts = this.state.contacts.slice(0);
-    const contactsIsInclud = newContacts.find(el => el.name === contact.name)
-
-    if (contactsIsInclud) {
-      alert(`${contact.name} is already in contacts`);
+   if (this.state.contacts.find(el => el.name === user.name)) {
+      alert(`${user.name} is already in contacts`);
       return;
     }
 
-    newContacts.push(contact)
-    this.setState({
-      contacts: newContacts,
-    }) 
+    this.setState((prevState)=>({
+      contacts: [
+        ...prevState.contacts,
+        {
+          ...user,
+          id: nanoid()
+        },
+      ],
+    })) 
   }
 
-  onCheangedFilter = (event) => {
-    this.setState((preState) => ({ ...preState, [event.target.name]: event.target.value, }))
+  onCheangedFilter = ({ target:{name, value}}) => {
+    this.setState({[name]: value, })
   }
   
   removeContact = (id) => {
